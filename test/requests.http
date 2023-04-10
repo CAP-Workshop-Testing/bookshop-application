@@ -1,0 +1,47 @@
+@server = http://localhost:4004
+
+
+### Get all books
+GET {{server}}/catalog/Books
+
+
+### Get all authors
+GET {{server}}/catalog/Authors
+
+
+### Create new author with admin user (UK)
+POST {{server}}/catalog/Authors
+Content-Type: application/json
+Authorization: Basic YWRtaW46aW5pdGlhbA==
+
+{
+  "ID": 12333,
+  "name": "Charles Dickens",
+  "dateOfBirth": "1812-02-07",
+  "nationality": "UK"
+}
+
+
+### Get total stock
+GET {{server}}/catalog/totalStock()
+
+
+### Submit an order
+POST {{server}}/catalog/submitOrder
+Content-Type: application/json
+
+{ "book":207, "quantity":4 }
+
+
+### Create new book as normal user (UK) ---> result should be forbidden
+POST {{server}}/catalog/Books
+Content-Type: application/json
+Authorization: Basic bm9ybWFsOmluaXRpYWw=
+
+{
+  "ID": 299,
+  "title": "The Fall of the House of Ushe",
+  "author_ID": 150,
+  "stock":67,
+  "price": 19.19
+}

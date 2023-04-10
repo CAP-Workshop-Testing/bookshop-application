@@ -1,0 +1,83 @@
+{
+  "name": "mybookshop",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/http-client": "^2.14.0",
+    "@sap/cds": "^6",
+    "express": "^4",
+    "hdb": "^0.19.0",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.102.17",
+    "axios": "^1.3.4",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.4.3",
+    "rimraf": "^3.0.2",
+    "sqlite3": "^5"
+  },
+  "scripts": {
+    "start": "cds run",
+    "watch-mybookshop_ui": "cds watch --open mybookshop_ui/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-deployed_ui": "cds watch --open deployed_ui/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy mybookshop --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "engines": {
+    "node": "^16.15"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "hana-cloud",
+        "credentials": {
+          "database": "my.db"
+        }
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "credentials": {
+          "destination": "S4_sandbox",
+          "path": "/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/mybookshop_ui",
+    "app/deployed_ui"
+  ]
+}
